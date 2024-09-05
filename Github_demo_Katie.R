@@ -5,10 +5,13 @@
 #' Create your own version in a new repo for your own university/ site
 #' 
 #' Load libraries
-library(tidyverse)
-library(viridis)
-library(leaflet)
-library(svglite)
+#' 
+# install.packages () # just in case needed!
+#'  require(pacman)
+pacman::p_load(tidyverse, # data manipulation
+               viridis,
+               leaflet,
+               svglite)
 
 #' Import data
 df <- read_csv("data/venues_dirty.csv") # proportion patients returning by dose
@@ -18,7 +21,7 @@ ug <- df %>%
   filter(university == "Glasgow")  %>%
   mutate_at(vars(venue), factor) %>%
   group_by(venue) %>%
-  summarise(n = length(venue))
+  dplyr::summarise(n = length(venue))
 
 # make bar plot to show popular choices
 p <- ggplot(data = ug, aes(x = venue, y = n)) +
@@ -39,6 +42,7 @@ df <- df %>%
                 'IHI cafeteria' = 'IHI cafe'))
 
 # save clean data (without overwriting the raw data!)
+dir.create("outputs")
 write.csv(df, file = "outputs/venues_clean.csv", row.names = FALSE)
   
 # replot
@@ -62,6 +66,7 @@ p <- df %>%
 p
 
 # save an svg file
+# dir.create("figs")
 ggsave("figs/demo_stacked_chart.svg", p, device = "svg")
 
 # See if the file can be edited in ppt! Follow instructions here:
