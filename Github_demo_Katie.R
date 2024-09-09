@@ -5,9 +5,7 @@
 #' Create your own version in a new repo for your own university/ site
 #' 
 #' Load libraries
-#' 
-# install.packages () # just in case needed!
-#'  require(pacman)
+if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, # data manipulation
                viridis,
                leaflet,
@@ -42,7 +40,7 @@ df <- df %>%
                 'IHI cafeteria' = 'IHI cafe'))
 
 # save clean data (without overwriting the raw data!)
-dir.create("outputs")
+if(!dir.exists("outputs")){dir.create("outputs")}
 write.csv(df, file = "outputs/venues_clean.csv", row.names = FALSE)
   
 # replot
@@ -66,7 +64,7 @@ p <- df %>%
 p
 
 # save an svg file
-# dir.create("figs")
+if(!dir.exists("figs")){dir.create("figs")}
 ggsave("figs/demo_stacked_chart.svg", p, device = "svg")
 
 # See if the file can be edited in ppt! Follow instructions here:
